@@ -1,0 +1,44 @@
+# Constraint Configuration
+
+# Capacity constraints
+capacity:
+  warehouse_max_orders: 1000
+  vehicle_max_capacity: 50
+  driver_max_hours_per_day: 8
+  facility_max_throughput: 500
+
+# Time constraints
+time:
+  delivery_deadline_hours: 24
+  pickup_window_minutes: 30
+  route_max_duration_hours: 12
+  maintenance_interval_days: 7
+
+# Safety constraints
+safety:
+  speed_limit_km_h: 80
+  rest_period_minutes: 45
+  max_consecutive_driving_hours: 4
+  vehicle_inspection_interval_days: 30
+
+# Business constraints
+business:
+  min_service_level: 0.95
+  max_cancellation_rate: 0.05
+  customer_rating_threshold: 4.0
+  profit_margin_min: 0.1
+
+# Legal constraints
+legal:
+  driving_license_required: true
+  insurance_validity_months: 12
+  vehicle_registration_current: true
+  hazardous_material_certification: false
+
+# Violation penalties
+penalties:
+  capacity_violation_multiplier: 2.0
+  time_violation_multiplier: 1.5
+  safety_violation_multiplier: 3.0
+  business_violation_multiplier: 1.2
+  legal_violation_multiplier: 5.0
