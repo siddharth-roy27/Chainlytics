@@ -499,4 +499,3 @@ if __name__ == "__main__":
     override_engine = SafetyOverrideEngine(override_manager)
     summary = override_engine.get_override_summary()
     print(f"Override summary: {summary}")
-</file>

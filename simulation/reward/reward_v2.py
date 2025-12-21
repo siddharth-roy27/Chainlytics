@@ -612,4 +612,3 @@ if __name__ == "__main__":
         else:
             weight = reward_func.weights.get(component, 0.0)
             print(f"  {component}: {value:+.3f} (weight: {weight:.3f})")
-</file>

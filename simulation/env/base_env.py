@@ -708,4 +708,3 @@ if __name__ == "__main__":
     # Close environment
     env.close()
     print("Simulation completed")
-</file>

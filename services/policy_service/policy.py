@@ -388,4 +388,3 @@ if __name__ == "__main__":
     # Activate policy
     activated = policy_manager.activate_policy(policy_id)
     print(f"Policy activated: {activated}")
-</file>

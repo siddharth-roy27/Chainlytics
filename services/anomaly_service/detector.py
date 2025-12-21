@@ -462,4 +462,3 @@ if __name__ == "__main__":
     for anomaly in anomalies[:5]:  # Show first 5
         print(f"  - {anomaly.anomaly_type.value}: {anomaly.value} at {anomaly.timestamp}")
         print(f"    Severity: {anomaly.severity.value}, Confidence: {anomaly.confidence:.2f}")
-</file>

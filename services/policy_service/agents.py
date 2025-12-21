@@ -468,4 +468,3 @@ if __name__ == "__main__":
     
     print(f"Created multi-agent system with {len(agents)} agents")
     print(f"Agent IDs: {mas.agent_ids}")
-</file>

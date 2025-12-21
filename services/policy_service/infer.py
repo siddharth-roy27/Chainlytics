@@ -436,4 +436,3 @@ if __name__ == "__main__":
     # inference_engine.load_policy("policy_v1.0")
     # actions = inference_engine.select_actions(sample_observations)
     # print(f"Selected actions for {len(actions)} agents")
-</file>

@@ -420,4 +420,3 @@ if __name__ == "__main__":
     print(f"  Sustainability: {components.sustainability:.3f}")
     print(f"  Safety Compliance: {components.safety_compliance:.3f}")
     print(f"Total Reward: {total_reward:.3f}")
-</file>

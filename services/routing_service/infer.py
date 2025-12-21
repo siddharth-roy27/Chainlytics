@@ -340,4 +340,3 @@ if __name__ == "__main__":
                 print(f"Failed: {result.get('error', 'Unknown error')}")
         except Exception as e:
             print(f"Error with {solver_type}: {str(e)}")
-</file>

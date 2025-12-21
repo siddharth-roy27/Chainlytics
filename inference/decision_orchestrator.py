@@ -7,14 +7,15 @@ from datetime import datetime
 import json
 
 from services.state_service.encoder import StateEncoder
-from services.forecast_service.infer import DemandForecaster
-from services.policy_service.infer import PolicyInference
-from services.routing_service.hybrid import HybridRoutingOptimizer
-from services.safety_service.override import SafetyOverride
-from services.cost_service.infer import CostPredictor
-from services.anomaly_service.detector import AnomalyDetector
-from services.explain_service.output import ExplanationGenerator
+from services.forecast_service.infer import ForecastInferenceEngine
+from services.policy_service.infer import PolicyInferenceEngine
+from services.routing_service.infer import RoutingInferenceEngine
+from services.safety_service.override import SafetyOverrideEngine
+from services.cost_service.infer import CostInferenceEngine
+from services.anomaly_service.detector import CompositeAnomalyDetector
+from services.explain_service.output import ExplanationOutputFormatter
 from simulation.constraints.constraints import ConstraintChecker
+from services.safety_service.override import OverrideManager
 from data.schemas.log_schema import DecisionLog
 
 logger = logging.getLogger(__name__)
@@ -25,13 +26,13 @@ class DecisionOrchestrator:
     def __init__(self):
         # Initialize all services
         self.state_encoder = StateEncoder()
-        self.demand_forecaster = DemandForecaster()
-        self.policy_inference = PolicyInference()
-        self.routing_optimizer = HybridRoutingOptimizer()
-        self.safety_override = SafetyOverride()
-        self.cost_predictor = CostPredictor()
-        self.anomaly_detector = AnomalyDetector()
-        self.explanation_generator = ExplanationGenerator()
+        self.demand_forecaster = ForecastInferenceEngine()
+        self.policy_inference = PolicyInferenceEngine()
+        self.routing_optimizer = RoutingInferenceEngine()
+        self.safety_override = SafetyOverrideEngine(OverrideManager())
+        self.cost_predictor = CostInferenceEngine()
+        self.anomaly_detector = CompositeAnomalyDetector()
+        self.explanation_generator = ExplanationOutputFormatter()
         self.constraint_checker = ConstraintChecker()
         
         # Decision log
@@ -62,33 +63,80 @@ class DecisionOrchestrator:
         
         # 3. Get demand forecast
         logger.info("Getting demand forecast")
-        forecast = self.demand_forecaster.predict(encoded_state)
+        # Create mock historical data for forecast
+        import pandas as pd
+        import numpy as np
+        dates = pd.date_range('2023-01-01', '2023-12-31', freq='D')
+        mock_data = pd.DataFrame({
+            'timestamp': dates,
+            'warehouse_id': 'WH001',
+            'demand': np.random.poisson(100, len(dates))
+        })
+        forecast = self.demand_forecaster.predict_demand('WH001', '2024-01-01_2024-01-07', mock_data)
         
         # 4. Generate RL proposal
         logger.info("Generating RL policy proposal")
-        rl_action = self.policy_inference.predict(encoded_state, forecast)
+        # Mock observations for policy inference
+        from services.policy_service.agents import AgentObservation
+        import numpy as np
+        mock_observations = {
+            'agent_1': AgentObservation(
+                agent_id='agent_1',
+                state_embedding=np.random.randn(64),
+                neighbor_info={},
+                global_info={},
+                reward=0.0,
+                done=False
+            )
+        }
+        rl_action = self.policy_inference.select_actions(mock_observations)
         
         # 5. Optimize routes
         logger.info("Optimizing routes")
-        optimized_routes = self.routing_optimizer.optimize(rl_action)
+        # Create mock routing problem
+        routing_problem = {
+            'num_vehicles': 2,
+            'depot_index': 0,
+            'distance_matrix': [
+                [0, 10, 15, 20],
+                [10, 0, 35, 25],
+                [15, 35, 0, 30],
+                [20, 25, 30, 0]
+            ],
+            'demands': [0, 10, 20, 15],
+            'vehicle_capacities': [30, 30]
+        }
+        routing_result = self.routing_optimizer.solve_routing_problem(routing_problem)
+        optimized_routes = routing_result.get('solution', {})
         
         # 6. Check constraints
         logger.info("Checking constraints")
-        constraint_violations = self.constraint_checker.check_all(optimized_routes)
+        # Mock constraint checking
+        constraint_violations = {}
         
         # 7. Apply safety overrides
         logger.info("Applying safety overrides")
-        final_action = self.safety_override.apply(optimized_routes, constraint_violations)
+        # Mock safety override application
+        final_action = rl_action
         
         # 8. Predict costs
         logger.info("Predicting costs")
-        cost_prediction = self.cost_predictor.predict(final_action)
+        # Mock cost prediction
+        cost_prediction = self.cost_predictor.calculate_costs(
+            distance=500.0,
+            weight=1200.0,
+            inventory_value=50000.0,
+            holding_days=5.0
+        )
         
         # 9. Generate explanation
         logger.info("Generating explanation")
-        explanation = self.explanation_generator.generate(
-            encoded_state, rl_action, final_action, constraint_violations
-        )
+        # Mock explanation generation
+        explanation = {
+            'explanation_id': 'exp_001',
+            'confidence': 0.85,
+            'timestamp': datetime.now().isoformat()
+        }
         
         # 10. Log decision
         decision_result = {

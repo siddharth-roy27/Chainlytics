@@ -68,3 +68,21 @@ class ForecastEvaluator:
         }
         
         return metrics
+
+def evaluate_forecast(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    """Evaluate forecast performance."""
+    evaluator = ForecastEvaluator()
+    # For simplicity, we'll create mock predictions if y_pred is a single value
+    if np.isscalar(y_pred) or (len(y_pred.shape) == 1 and y_pred.shape[0] == 1):
+        # Assume y_pred is a single prediction, create array of same size as y_true
+        y_pred_array = np.full_like(y_true, y_pred) if len(y_true.shape) > 0 else np.array([y_pred])
+    else:
+        y_pred_array = y_pred
+    
+    # Calculate metrics
+    metrics = {
+        'mae': evaluator.calculate_mae(y_true, y_pred_array),
+        'rmse': evaluator.calculate_rmse(y_true, y_pred_array),
+        'mape': evaluator.calculate_mape(y_true, y_pred_array)
+    }
+    return metrics
