@@ -1,0 +1,36 @@
+# Thresholds Configuration
+
+# Anomaly detection thresholds
+anomaly:
+  demand_spike_threshold: 2.0  # Standard deviations
+  cost_anomaly_threshold: 1.5   # Standard deviations
+  delay_anomaly_threshold: 1.8  # Standard deviations
+  route_deviation_threshold: 1.2  # Standard deviations
+
+# Performance thresholds
+performance:
+  min_accuracy_forecast: 0.85
+  max_response_time_ms: 100
+  min_availability: 0.99
+  max_error_rate: 0.01
+
+# Resource utilization thresholds
+utilization:
+  cpu_max_percentage: 80
+  memory_max_percentage: 85
+  disk_max_percentage: 90
+  network_max_bandwidth_utilization: 75
+
+# Alerting thresholds
+alerts:
+  critical_threshold: 0.9
+  warning_threshold: 0.7
+  info_threshold: 0.5
+  cooldown_period_minutes: 5
+
+# Model quality thresholds
+model_quality:
+  min_f1_score: 0.8
+  min_precision: 0.75
+  min_recall: 0.75
+  max_latency_seconds: 2

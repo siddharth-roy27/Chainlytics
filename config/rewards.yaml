@@ -1,0 +1,31 @@
+# Reward Configuration
+
+# Reward weights for different components
+weights:
+  # Positive rewards
+  on_time_delivery: 1.0
+  cost_optimization: 0.8
+  resource_efficiency: 0.7
+  customer_satisfaction: 0.9
+  throughput: 0.6
+  revenue_generation: 0.8
+  sustainability: 0.5
+  
+  # Penalty weights (negative rewards)
+  late_delivery: -1.5
+  cancelled_order: -2.0
+  capacity_violation: -1.8
+  sla_breach: -2.5
+  legal_violation: -3.0
+  safety_incident: -2.8
+
+# Reward normalization parameters
+normalization:
+  window_size: 100  # Number of episodes to average over
+  min_value: -10.0  # Minimum normalized reward
+  max_value: 10.0   # Maximum normalized reward
+
+# Reward shaping parameters
+shaping:
+  smoothing_factor: 0.1  # For preventing extreme fluctuations
+  baseline_discount: 0.95  # Discount factor for baseline metrics
